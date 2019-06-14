@@ -1,14 +1,14 @@
 <div class="game">
-  <div *ngIf="isPlay">
+  <div class="play" *ngIf="isPlay">
     <app-play-area></app-play-area>
     <app-play-info></app-play-info>
   </div>
 </div>
-<div *ngIf="isPlay">
+<div class="game-input" *ngIf="isPlay">
   <input type="input">
   <a routerLink="/main">Stop</a>
 </div>
-<div *ngIf="!isPlay">
+<div class="game-input" *ngIf="!isPlay">
   <input type="input" value="Start를 눌러서 게임을 시작하세요" disabled >
   <a routerLink="/play">Start</a>
 </div>

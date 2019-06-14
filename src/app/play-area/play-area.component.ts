@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { timer , Subscription } from 'rxjs';
 import { PlayService} from '../play.service';
-
+import { Word } from "../word";
 
 @Component({
   selector: 'app-play-area',
@@ -9,12 +9,12 @@ import { PlayService} from '../play.service';
   styleUrls: ['./play-area.component.css']
 })
 export class PlayAreaComponent implements OnInit {
-  words: String[];
+  words: Word[];
   subscription: Subscription;
   getWords(): void {
     this.playService.getWords().subscribe(word => {
-      this.words.push(word);
-    })
+      this.words.indexOf(word) === -1 && this.words.push(word);
+    });
   }
   constructor(private playService: PlayService) { }
   ngOnInit() {

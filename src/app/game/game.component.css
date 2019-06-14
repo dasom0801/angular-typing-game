@@ -1,6 +1,35 @@
 .game {
   margin: 30px auto;
+  padding: 25px 35px;
   width: 1000px;
   height: 500px;
   background-color: #eee;
+}
+
+.play {
+  display: flex;
+}
+
+input {
+  margin-right: 10px;
+  padding: 5px;
+  width: 500px;
+  height: 40px;
+  text-align: center;
+}
+
+a {
+  display: inline-block;
+  width: 70px;
+  height: 40px;
+  line-height: 40px;
+  background-color: #FF9671;
+  box-shadow: 2px 2px 0 rgb(255, 68, 0);
+  text-transform: uppercase;
+  text-align: center;
+  cursor: pointer;
+}
+
+.game-input {
+  text-align: center;
 }
