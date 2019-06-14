@@ -2,14 +2,32 @@
   margin: 30px auto;
   padding: 25px 35px;
   width: 1000px;
-  height: 500px;
+  height: 550px;
   background-color: #eee;
 }
 
 .play {
+  position: relative;
   display: flex;
 }
 
+.game-over {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 350px;
+  height: 200px;
+  background: #FF9671;
+  border: 2px solid #ff4400;
+  border-radius: 5px;
+}
+.game-over p {
+  text-align: center;
+  line-height: 200px;
+  font-size: 30px;
+  font-weight: bold;
+}
 input {
   margin-right: 10px;
   padding: 5px;
@@ -24,7 +42,7 @@ a {
   height: 40px;
   line-height: 40px;
   background-color: #FF9671;
-  box-shadow: 2px 2px 0 rgb(255, 68, 0);
+  box-shadow: 2px 2px 0 #ff4400;
   text-transform: uppercase;
   text-align: center;
   cursor: pointer;

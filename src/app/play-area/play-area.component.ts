@@ -10,12 +10,16 @@ import { Word } from '../word';
 })
 export class PlayAreaComponent implements OnInit {
   @Input() point: number;
+  @Input() gameOver: boolean;
   @Output() handlePoint =  new EventEmitter<boolean>();
   words: Word[];
   subscription: Subscription;
 
   getWords(): void {
     this.playService.getWords().subscribe(word => {
+      if (this.gameOver) {
+        this.subscription.unsubscribe();
+      }
       if (this.words.indexOf(word) === -1) {
         word.left = Math.floor((Math.random()*650));
         word.top = 0;

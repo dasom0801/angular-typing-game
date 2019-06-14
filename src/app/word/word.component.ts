@@ -10,7 +10,8 @@ import { Word } from "../word";
   styleUrls: ['./word.component.css']
 })
 export class WordComponent implements OnInit {
-  @Input() word: Word
+  @Input() word: Word;
+  @Input() gameOver: boolean;
   @Output() removeWord =  new EventEmitter<Word>();
   @Output() changePoint =  new EventEmitter<boolean>();
   
@@ -20,8 +21,11 @@ export class WordComponent implements OnInit {
   ngOnInit() {
     const newWordTime = timer(1000, 1000);
     this.subscription = newWordTime.subscribe(() =>{ 
+      if(this.gameOver) {
+        this.subscription.unsubscribe();
+      }
       if(this.word.top < 450) {
-        this.word.top = this.word.top + 15
+        this.word.top = this.word.top + 25
       } else {
         this.removeWord.emit(this.word);
         this.changePoint.emit(false);

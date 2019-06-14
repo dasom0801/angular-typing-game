@@ -1,6 +1,7 @@
 <div class="play-area">
   <app-word *ngFor="let word of words" 
-    [word]="word" 
+    [word]="word"
+    [gameOver]="gameOver"
     (removeWord)="removeWord($event)"
     (changePoint)="changePoint($event)"></app-word>
 </div>

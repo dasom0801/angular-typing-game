@@ -9,16 +9,21 @@ import { Router } from '@angular/router';
 export class GameComponent implements OnInit {
   isPlay: boolean
   point: number
+  gameOver: boolean
 
   handlePoint(isPointUp: boolean): void {
     isPointUp ? ++this.point : --this.point;
+    if(this.point === 0) {
+      this.gameOver = true;
+    }
   }
-  
+
   constructor(private router: Router) { }
 
   ngOnInit() {
     this.isPlay = this.router.url === '/play';
     this.point = 5;
+    this.gameOver = false;
   }
 
 }

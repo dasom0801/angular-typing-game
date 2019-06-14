@@ -1,7 +1,10 @@
 <div class="game">
   <div class="play" *ngIf="isPlay">
-    <app-play-area [point]="point" (handlePoint)="handlePoint($event)"></app-play-area>
+    <app-play-area [point]="point" [gameOver]="gameOver" (handlePoint)="handlePoint($event)"></app-play-area>
     <app-play-info [point]="point"></app-play-info>
+    <div class="game-over" *ngIf="gameOver">
+      <p>Game Over</p>
+    </div>
   </div>
 </div>
 <div class="game-input" *ngIf="isPlay">
