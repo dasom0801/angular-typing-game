@@ -4,4 +4,5 @@
   width: 700px;
   height: 450px;
   background-color: #fff;
+  overflow: hidden;
 }

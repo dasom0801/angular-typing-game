@@ -7,11 +7,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
-  isPlay: Boolean
+  isPlay: boolean
+  point: number
+
+  handlePoint(isPointUp: boolean): void {
+    isPointUp ? ++this.point : --this.point;
+  }
+  
   constructor(private router: Router) { }
 
   ngOnInit() {
-    this.isPlay = this.router.url === '/play'
+    this.isPlay = this.router.url === '/play';
+    this.point = 5;
   }
 
 }
