@@ -2,7 +2,7 @@
   <app-word *ngFor="let word of words" 
     [word]="word"
     [gameOver]="gameOver"
-    (removeWord)="removeWord($event)"
+    (handleRemoveWord)="handleRemoveWord($event)"
     (changePoint)="changePoint($event)"></app-word>
 </div>
 

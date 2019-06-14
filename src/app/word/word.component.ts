@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { timer , Subscription } from 'rxjs';
-import { PlayService} from '../play.service';
 
 import { Word } from "../word";
 
@@ -12,11 +11,11 @@ import { Word } from "../word";
 export class WordComponent implements OnInit {
   @Input() word: Word;
   @Input() gameOver: boolean;
-  @Output() removeWord =  new EventEmitter<Word>();
+  @Output() handleRemoveWord =  new EventEmitter<Word>();
   @Output() changePoint =  new EventEmitter<boolean>();
   
   subscription: Subscription;
-  constructor(private playService: PlayService) { }
+  constructor() { }
 
   ngOnInit() {
     const newWordTime = timer(1000, 1000);
@@ -24,10 +23,10 @@ export class WordComponent implements OnInit {
       if(this.gameOver) {
         this.subscription.unsubscribe();
       }
-      if(this.word.top < 450) {
+      if(this.word.top < 500) {
         this.word.top = this.word.top + 25
       } else {
-        this.removeWord.emit(this.word);
+        this.handleRemoveWord.emit(this.word);
         this.changePoint.emit(false);
       }
     });
