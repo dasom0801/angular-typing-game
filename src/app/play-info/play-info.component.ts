@@ -1,6 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PlayService} from '../play.service';
-
 
 @Component({
   selector: 'app-play-info',
@@ -9,7 +7,7 @@ import { PlayService} from '../play.service';
 })
 export class PlayInfoComponent implements OnInit {
   @Input() point: number;
-  constructor(private playService: PlayService) { }
+  constructor() { }
 
   ngOnInit() {
   }

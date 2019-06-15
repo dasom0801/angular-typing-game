@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { NgRedux, NgReduxModule, DevToolsExtension } from '@angular-redux/store';
+import { IAppState, rootReducer, INITIAL_STATE } from './store';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,9 +20,18 @@ import { WordComponent } from './word/word.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgReduxModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor (ngRedux: NgRedux<IAppState>, private devTools: DevToolsExtension) {
+    let enhancers = [];
+    if (devTools.isEnabled()) {
+      enhancers = [devTools.enhancer()];
+    }
+    ngRedux.configureStore(rootReducer, INITIAL_STATE, [], enhancers);
+  }
+}

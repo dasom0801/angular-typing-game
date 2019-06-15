@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { timer , Subscription, Subject } from 'rxjs';
-import { PlayService} from '../play.service';
+import { timer , Subscription, Subject, Observable } from 'rxjs';
+import { GameService } from '../game.service';
+import { NgRedux, select } from '@angular-redux/store';
+import { IAppState } from '../store';
+
 import { Word } from '../word';
 
 @Component({
@@ -10,15 +13,15 @@ import { Word } from '../word';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
-  isPlay: boolean
-  point: number
-  gameOver: boolean
+  @select() readonly isPlay$: Observable<boolean>
+  point: number;
+  gameOver: boolean;
   words: Word[];
   subscription: Subscription;
 
   
   getWords(): void {
-    this.playService.getWords().subscribe(word => {
+    this.gameService.getWords().subscribe(word => {
       if (this.gameOver) {
         this.subscription.unsubscribe();
       }
@@ -52,10 +55,13 @@ export class GameComponent implements OnInit {
     this.words.splice(index, 1);
   }
 
-  constructor(private router: Router, private playService: PlayService) { }
+  constructor(
+    private router: Router, 
+    private gameService: GameService, 
+    private ngRedux: NgRedux<IAppState>) { }
 
   ngOnInit() {
-    this.isPlay = this.router.url === '/play';
+    this.gameService.getPath(this.router.url);
     this.point = 5;
     this.gameOver = false;
     this.words = [];
