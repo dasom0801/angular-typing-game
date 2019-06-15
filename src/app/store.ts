@@ -1,4 +1,4 @@
-import { GET_WORDS, GET_PATH, HANDLE_POINT, REMOVE_WORD, INIT_PLAY, GAMEOVER } from './actions';
+import { GET_WORDS, GET_PATH, HANDLE_POINT, REMOVE_WORD, INIT_PLAY, GAMEOVER, LEVEL_UP } from './actions';
 import { Word } from "./word";
 
 export interface IAppState {
@@ -6,12 +6,16 @@ export interface IAppState {
   point: number;
   gameOver: boolean;
   isPlay: boolean;
+  playSpeed: number;
+  gameLevel: number;
 }
 export const INITIAL_STATE: IAppState = {
   words: [],
   point: 5,
   gameOver: false,
-  isPlay: false
+  isPlay: false,
+  playSpeed: 1000,
+  gameLevel: 1
 }
 
 export const rootReducer = (state: IAppState = INITIAL_STATE, action): IAppState => {
@@ -19,10 +23,8 @@ export const rootReducer = (state: IAppState = INITIAL_STATE, action): IAppState
   switch (action.type) {
     case INIT_PLAY: 
       return {
-        ...state,
-        words: [],
-        point: 5,
-        gameOver: false,
+        ...INITIAL_STATE,
+        isPlay: true
       };
     case GET_PATH: 
       return {
@@ -48,6 +50,12 @@ export const rootReducer = (state: IAppState = INITIAL_STATE, action): IAppState
       return {
         ...state,
         gameOver: action.isOver
+      }
+    case LEVEL_UP:
+      return {
+        ...state,
+        playSpeed: state.playSpeed - 100,
+        gameLevel: state.gameLevel + 1
       }
     default:
       return state;

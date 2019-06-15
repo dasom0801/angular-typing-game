@@ -14,14 +14,15 @@ import { Word } from "../word";
 })
 export class WordComponent implements OnInit {
   @Input() word: Word;
-  @select() gameOver$: Observable<boolean>;
+  @Input() speed: number;
+  @select() readonly gameOver$: Observable<boolean>;
   gameOver: boolean;
-
   newWordSubscription: Subscription;
+
   constructor(private gameService: GameService) { }
 
   ngOnInit() {
-    const newWordTime = timer(1000, 1000);
+    const newWordTime = timer(this.speed, this.speed/2);
     this.gameOver$.subscribe(value => this.gameOver = value);
     this.newWordSubscription = newWordTime.subscribe(() =>{ 
       if(this.gameOver) {

@@ -14,13 +14,17 @@ import { Word } from '../word';
 export class PlayAreaComponent implements OnInit {
   @select() readonly words$: Observable<Word[]>;
   @select() readonly gameOver$: Observable<boolean>;
+  @select() readonly playSpeed$: Observable<number>;
+  palySpeed: number;
   wordsSubscription: Subscription;
+  speedSubscription: Subscription;
 
   constructor(private gameService: GameService) { }
 
   ngOnInit() {
     this.gameService.initPlay();
-    const newWordTime = timer(1000, 2000);
+    this.speedSubscription = this.playSpeed$.subscribe(speed => this.palySpeed = speed);
+    const newWordTime = timer(this.palySpeed, this.palySpeed);
     this.wordsSubscription = newWordTime.subscribe(() => this.gameService.getWords());
     this.gameOver$.subscribe(gameover => {
       if(gameover) {
@@ -31,6 +35,6 @@ export class PlayAreaComponent implements OnInit {
   
   ngOnDestroy() {
     this.wordsSubscription.unsubscribe();
+    this.speedSubscription.unsubscribe();
   }
-
 }

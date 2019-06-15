@@ -1,4 +1,7 @@
 <div class="play-area">
-  <app-word *ngFor="let word of (words$ | async)" [word]="word"></app-word>
+  <app-word *ngFor="let word of (words$ | async)" 
+    [word]="word"
+    [speed]="playSpeed$ | async"
+  ></app-word>
 </div>
 

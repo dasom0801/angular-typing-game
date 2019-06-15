@@ -4,3 +4,4 @@ export const GET_PATH = 'GET_PATH';
 export const HANDLE_POINT = 'HANDLE_POINT';
 export const REMOVE_WORD = 'REMOVE_WORD';
 export const GAMEOVER = 'GAMEOVER';
+export const LEVEL_UP = 'LEVEL_UP';
