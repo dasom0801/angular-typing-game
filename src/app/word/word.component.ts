@@ -1,5 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { timer , Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+import { select } from '@angular-redux/store';
+
+import { GameService } from '../game.service';
 
 import { Word } from "../word";
 
@@ -10,29 +14,28 @@ import { Word } from "../word";
 })
 export class WordComponent implements OnInit {
   @Input() word: Word;
-  @Input() gameOver: boolean;
-  @Output() handleRemoveWord =  new EventEmitter<Word>();
-  @Output() changePoint =  new EventEmitter<boolean>();
-  
-  subscription: Subscription;
-  constructor() { }
+  @select() gameOver$: Observable<boolean>;
+  gameOver: boolean;
+
+  newWordSubscription: Subscription;
+  constructor(private gameService: GameService) { }
 
   ngOnInit() {
     const newWordTime = timer(1000, 1000);
-    this.subscription = newWordTime.subscribe(() =>{ 
+    this.gameOver$.pipe().subscribe(value => this.gameOver = value);
+    this.newWordSubscription = newWordTime.subscribe(() =>{ 
       if(this.gameOver) {
-        this.subscription.unsubscribe();
+        this.newWordSubscription.unsubscribe();
       }
       if(this.word.top < 500) {
         this.word.top = this.word.top + 25
       } else {
-        this.handleRemoveWord.emit(this.word);
-        this.changePoint.emit(false);
+        this.gameService.removeWord(this.word.text, false);
       }
     });
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.newWordSubscription.unsubscribe();
   }
 }

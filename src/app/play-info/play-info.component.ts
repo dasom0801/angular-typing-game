@@ -1,4 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { select } from '@angular-redux/store';
+
 
 @Component({
   selector: 'app-play-info',
@@ -6,7 +9,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./play-info.component.css']
 })
 export class PlayInfoComponent implements OnInit {
-  @Input() point: number;
+  @select() readonly point$:Observable<number> 
   constructor() { }
 
   ngOnInit() {

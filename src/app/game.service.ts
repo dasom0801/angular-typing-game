@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
-import { NgRedux } from '@angular-redux/store';
+import { Observable } from "rxjs";
+import { map, first } from 'rxjs/operators';
+
+import { NgRedux, select } from '@angular-redux/store';
 import { IAppState } from './store';
 import { GET_PATH, GET_WORDS, INIT_PLAY, REMOVE_WORD, HANDLE_POINT } from './actions'
+
 
 import { WORDS } from './word-list';
 import { Word } from "./word";
@@ -10,9 +14,12 @@ import { Word } from "./word";
 })
 
 export class GameService {
+  @select() words$: Observable<Word[]>;
+
   initPlay(): void {
     this.ngRedux.dispatch({type: INIT_PLAY});
   }
+  
   getPath(path: string): void{
     this.ngRedux.dispatch({type: GET_PATH, isPlay: path === '/play'});
   }
@@ -28,8 +35,16 @@ export class GameService {
     this.ngRedux.dispatch({type: HANDLE_POINT, isPointUp})
   }
 
-  removeWord(index: number): void {
-    this.ngRedux.dispatch({type: REMOVE_WORD, index});
+  removeWord(text: string, isPointUp: boolean): void {
+    let removeWord: (number|Word)[];
+    this.words$.pipe(
+      map(word => word.map((w, i) => [w, i])),
+      first()
+    ).subscribe(value => removeWord = value.filter(word => Object.values(word[0]).includes(text))[0])
+    if(removeWord) {
+      this.handlePoint(isPointUp);
+      this.ngRedux.dispatch({type: REMOVE_WORD, index: removeWord[1]});
+    }
   }
 
   constructor(private ngRedux: NgRedux<IAppState>) { }
