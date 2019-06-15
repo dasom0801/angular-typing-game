@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { timer , Subscription, Subject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { GameService } from '../game.service';
 import { NgRedux, select } from '@angular-redux/store';
 import { IAppState } from '../store';
@@ -17,21 +17,6 @@ export class GameComponent implements OnInit {
   point: number;
   gameOver: boolean;
   words: Word[];
-  subscription: Subscription;
-
-  
-  getWords(): void {
-    this.gameService.getWords().subscribe(word => {
-      if (this.gameOver) {
-        this.subscription.unsubscribe();
-      }
-      if (this.words.indexOf(word) === -1) {
-        word.left = Math.floor((Math.random()*650));
-        word.top = 0;
-        this.words.push(word);
-      }
-    });
-  }
 
   handlePoint(isPointUp: boolean): void {
     isPointUp ? ++this.point : --this.point;
@@ -65,12 +50,5 @@ export class GameComponent implements OnInit {
     this.point = 5;
     this.gameOver = false;
     this.words = [];
-    const newWordTime = timer(1000, 2000);
-    this.subscription = newWordTime.subscribe(() => this.getWords());
   }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-
 }

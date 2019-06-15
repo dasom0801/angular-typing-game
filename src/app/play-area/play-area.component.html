@@ -1,5 +1,5 @@
 <div class="play-area">
-  <app-word *ngFor="let word of words" 
+  <app-word *ngFor="let word of (words$ | async)" 
     [word]="word"
     [gameOver]="gameOver"
     (handleRemoveWord)="handleRemoveWord($event)"

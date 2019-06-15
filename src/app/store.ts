@@ -1,4 +1,4 @@
-import { GET_WORDS, GET_PATH, HANDLE_POINT, REMOVE_WORD } from './actions';
+import { GET_WORDS, GET_PATH, HANDLE_POINT, REMOVE_WORD, INIT_PLAY } from './actions';
 import { Word } from "./word";
 
 export interface IAppState {
@@ -15,12 +15,20 @@ export const INITIAL_STATE: IAppState = {
 }
 
 export const rootReducer = (state: IAppState = INITIAL_STATE, action): IAppState => {
+  console.log('store action' , action);
   switch (action.type) {
+    case INIT_PLAY: 
+      return {
+        ...state,
+        words: [],
+        point: 5,
+        gameOver: false,
+      };
     case GET_PATH: 
       return {
         ...state,
         isPlay: action.isPlay
-      }
+      };
     case GET_WORDS:
       return {
         ...state,
@@ -30,12 +38,12 @@ export const rootReducer = (state: IAppState = INITIAL_STATE, action): IAppState
       return {
         ...state,
         point: action.isPoint ? ++state.point : --state.point
-      }
+      };
     case REMOVE_WORD: 
       return {
         ...state,
         words: state.words.filter((item, index) => index !== action.index)
-      }
+      };
     default:
       return state;
   }
