@@ -22,7 +22,7 @@ export class WordComponent implements OnInit {
 
   ngOnInit() {
     const newWordTime = timer(1000, 1000);
-    this.gameOver$.pipe().subscribe(value => this.gameOver = value);
+    this.gameOver$.subscribe(value => this.gameOver = value);
     this.newWordSubscription = newWordTime.subscribe(() =>{ 
       if(this.gameOver) {
         this.newWordSubscription.unsubscribe();

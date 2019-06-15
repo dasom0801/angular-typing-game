@@ -10,7 +10,8 @@ import { select } from '@angular-redux/store';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
-  @select() readonly isPlay$: Observable<boolean>
+  @select() readonly isPlay$: Observable<boolean>;
+  @select() readonly gameOver$: Observable<boolean>
 
   handleInput(event: any): void {
     const inputValue = event.target.value;

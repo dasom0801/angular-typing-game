@@ -12,20 +12,9 @@ import { Word } from '../word';
   styleUrls: ['./play-area.component.css']
 })
 export class PlayAreaComponent implements OnInit {
-  @Input() point: number;
-  @Input() gameOver: boolean;
   @select() readonly words$: Observable<Word[]>;
-  @Output() handlePoint =  new EventEmitter<boolean>();
-  @Output() removeWord =  new EventEmitter<Word>()
+  @select() readonly gameOver$: Observable<boolean>;
   wordsSubscription: Subscription;
-
-  changePoint(isPointUp: boolean): void {
-    this.handlePoint.emit(isPointUp);
-  }
-
-  handleRemoveWord(word: Word): void {
-    this.removeWord.emit(word);
-  }
 
   constructor(private gameService: GameService) { }
 
@@ -33,6 +22,11 @@ export class PlayAreaComponent implements OnInit {
     this.gameService.initPlay();
     const newWordTime = timer(1000, 2000);
     this.wordsSubscription = newWordTime.subscribe(() => this.gameService.getWords());
+    this.gameOver$.subscribe(gameover => {
+      if(gameover) {
+        this.wordsSubscription.unsubscribe();
+      }
+    })
   }
   
   ngOnDestroy() {

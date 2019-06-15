@@ -1,4 +1,4 @@
-import { GET_WORDS, GET_PATH, HANDLE_POINT, REMOVE_WORD, INIT_PLAY } from './actions';
+import { GET_WORDS, GET_PATH, HANDLE_POINT, REMOVE_WORD, INIT_PLAY, GAMEOVER } from './actions';
 import { Word } from "./word";
 
 export interface IAppState {
@@ -44,6 +44,11 @@ export const rootReducer = (state: IAppState = INITIAL_STATE, action): IAppState
         ...state,
         words: state.words.filter((item, index) => index !== action.index)
       };
+    case GAMEOVER: 
+      return {
+        ...state,
+        gameOver: action.isOver
+      }
     default:
       return state;
   }
