@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map, first } from 'rxjs/operators';
 import { GameService } from '../game.service';
-import { NgRedux, select } from '@angular-redux/store';
-import { IAppState } from '../store';
+import { select } from '@angular-redux/store';
 
 import { Word } from '../word';
 
@@ -14,41 +14,27 @@ import { Word } from '../word';
 })
 export class GameComponent implements OnInit {
   @select() readonly isPlay$: Observable<boolean>
-  point: number;
-  gameOver: boolean;
-  words: Word[];
-
-  handlePoint(isPointUp: boolean): void {
-    isPointUp ? ++this.point : --this.point;
-    if(this.point === 0) {
-      this.gameOver = true;
-    }
-  }
+  @select() words$: Observable<Word[]>
 
   handleInput(event: any): void {
-    const value = event.target.value;
-    const word = this.words.filter(word => Object.values(word).includes(value))[0];
-    event.target.value = '';
-    if(word) {
-      this.removeWord(word);
-      this.handlePoint(true);
+    const inputValue = event.target.value;
+    let typedWord;
+    this.words$.pipe(
+      map(word => word.map((w, i) => [w, i])),
+      first()
+    ).subscribe(value => typedWord = value.filter(word => Object.values(word[0]).includes(inputValue))[0])
+    if(typedWord) {
+      this.gameService.handlePoint(true);
+      this.gameService.removeWord(typedWord[1])
     }
-  }
-
-  removeWord(word:Word): void {
-    const index = this.words.indexOf(word);
-    this.words.splice(index, 1);
+    event.target.value = '';
   }
 
   constructor(
     private router: Router, 
-    private gameService: GameService, 
-    private ngRedux: NgRedux<IAppState>) { }
+    private gameService: GameService) { }
 
   ngOnInit() {
     this.gameService.getPath(this.router.url);
-    this.point = 5;
-    this.gameOver = false;
-    this.words = [];
   }
 }
