@@ -4,7 +4,7 @@ import { map, first } from 'rxjs/operators';
 
 import { NgRedux, select } from '@angular-redux/store';
 import { IAppState } from './store';
-import { GET_PATH, GET_WORDS, INIT_PLAY, REMOVE_WORD, HANDLE_POINT, GAMEOVER, LEVEL_UP } from './actions'
+import { GET_PATH, GET_WORDS, INIT_PLAY, REMOVE_WORD, HANDLE_POINT, GAMEOVER, LEVEL_UP, COUNT_TIME } from './actions'
 
 
 import { WORDS } from './word-list';
@@ -36,7 +36,7 @@ export class GameService {
   }
 
   handlePoint(isPointUp: boolean): void {
-    this.ngRedux.dispatch({type: HANDLE_POINT, isPointUp})
+    this.point !== 0 && this.ngRedux.dispatch({type: HANDLE_POINT, isPointUp});
     if (this.speed > 100 && isPointUp && this.point % 5 === 4 ) {
       this.handleGameLevel();
     }
@@ -56,6 +56,12 @@ export class GameService {
 
   handleGameLevel(): void {
     this.ngRedux.dispatch({type: LEVEL_UP});
+  }
+
+  handleTme(): void {
+    console.log('check');
+    
+    this.ngRedux.dispatch({type: COUNT_TIME})
   }
 
   constructor(private ngRedux: NgRedux<IAppState>) {

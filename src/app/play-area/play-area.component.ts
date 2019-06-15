@@ -18,17 +18,25 @@ export class PlayAreaComponent implements OnInit {
   palySpeed: number;
   wordsSubscription: Subscription;
   speedSubscription: Subscription;
+  gameOverSubscription: Subscription;
+  timeSubscription: Subscription;
 
   constructor(private gameService: GameService) { }
 
   ngOnInit() {
     this.gameService.initPlay();
     this.speedSubscription = this.playSpeed$.subscribe(speed => this.palySpeed = speed);
+
     const newWordTime = timer(this.palySpeed, this.palySpeed);
     this.wordsSubscription = newWordTime.subscribe(() => this.gameService.getWords());
-    this.gameOver$.subscribe(gameover => {
-      if(gameover) {
+
+    const playTime = timer(1000, 1000);
+    this.timeSubscription = playTime.subscribe(() => this.gameService.handleTme());
+
+    this.gameOverSubscription = this.gameOver$.subscribe(gameover => {
+      if(gameover) { 
         this.wordsSubscription.unsubscribe();
+        this.timeSubscription.unsubscribe();
       }
     })
   }
@@ -36,5 +44,7 @@ export class PlayAreaComponent implements OnInit {
   ngOnDestroy() {
     this.wordsSubscription.unsubscribe();
     this.speedSubscription.unsubscribe();
+    this.gameOverSubscription.unsubscribe();
+    this.timeSubscription.unsubscribe();
   }
 }
