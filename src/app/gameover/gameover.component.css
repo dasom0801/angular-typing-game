@@ -1,0 +1,27 @@
+
+.game-over {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 350px;
+  height: 200px;
+  background: #FF9671;
+  border: 2px solid #ff4400;
+  border-radius: 5px;
+  text-align: center;
+}
+.game-over p {
+  margin: 10px;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.game-over input{
+  margin-top: 25px;
+  padding: 0px 3px;
+  width: 80%;
+  height: 35px;
+  font-size: 20px;
+  text-align: center;
+}

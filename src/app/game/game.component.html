@@ -3,16 +3,14 @@
   <div class="play" *ngIf="(isPlay$ | async)">
     <app-play-area></app-play-area>
     <app-play-info></app-play-info>
-    <div class="game-over" *ngIf="gameOver$ | async">
-      <p>Game Over</p>
-    </div>
+    <app-gameover  *ngIf="gameOver$ | async"></app-gameover>
   </div>
 </div>
 <div class="game-input" *ngIf="(isPlay$ | async)">
-  <input type="input" (keyup.enter)="handleInput($event)">
+  <input type="text" (keyup.enter)="handleInput($event)" [disabled]="gameOver$ | async">
   <a routerLink="/main">Stop</a>
 </div>
 <div class="game-input" *ngIf="!(isPlay$ | async)">
-  <input type="input" value="Start를 눌러서 게임을 시작하세요" disabled >
+  <input type="text" value="Start를 눌러서 게임을 시작하세요" disabled >
   <a routerLink="/play">Start</a>
 </div>

@@ -11,23 +11,6 @@
   display: flex;
 }
 
-.game-over {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 350px;
-  height: 200px;
-  background: #FF9671;
-  border: 2px solid #ff4400;
-  border-radius: 5px;
-}
-.game-over p {
-  text-align: center;
-  line-height: 200px;
-  font-size: 30px;
-  font-weight: bold;
-}
 input {
   margin-right: 10px;
   padding: 5px;

@@ -31,7 +31,7 @@ export class PlayAreaComponent implements OnInit {
     this.wordsSubscription = newWordTime.subscribe(() => this.gameService.getWords());
 
     const playTime = timer(1000, 1000);
-    this.timeSubscription = playTime.subscribe(() => this.gameService.handleTme());
+    this.timeSubscription = playTime.subscribe(() => this.gameService.handleTimeCount());
 
     this.gameOverSubscription = this.gameOver$.subscribe(gameover => {
       if(gameover) { 

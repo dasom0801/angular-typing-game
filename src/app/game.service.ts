@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { map, first } from 'rxjs/operators';
 
 import { NgRedux, select } from '@angular-redux/store';
@@ -43,7 +43,6 @@ export class GameService {
     this.gameOver$.subscribe(bool => gameover = bool);
     if (point === 0 && !gameover) {
       this.ngRedux.dispatch({type: GAMEOVER, isOver: true})
-      this.setRank();
     }
     point !== 0 && this.ngRedux.dispatch({type: HANDLE_POINT, isPointUp});
     if (speed > 100 && isPointUp && point % 5 === 4 ) {
@@ -67,38 +66,51 @@ export class GameService {
     this.ngRedux.dispatch({type: LEVEL_UP});
   }
 
-  handleTme(): void {
+  handleTimeCount(): void {
     this.ngRedux.dispatch({type: COUNT_TIME})
   }
 
-  setRank(): void {
-    const newRanking: Ranking = this.setNewRanking();
+  setRankingList(user: string): void {
+    const newRanking: Ranking = this.getNewRanking(user);
+    const ranking: Ranking[] = this.getSortedRanking(newRanking);
+    this.ngRedux.dispatch({type: SET_RANK, ranking});
+  }
+
+  getSortedRanking(newRanking: Ranking): Ranking[] {
     let ranking: Ranking[];
     this.ranking$.subscribe(value => ranking = value);
     ranking.push(newRanking);
     ranking = ranking.sort((a, b) => b.playTime - a.playTime);
     ranking = ranking.length > 5 ? ranking.splice(0, 5) : ranking;
-    this.ngRedux.dispatch({type: SET_RANK, ranking});
+    return ranking;
   }
 
-  setNewRanking(): Ranking {
+  getNewRanking(user: string): Ranking {
     let timeRecord: number;
-    let displayTime: string;
-    let d: Date = new Date();
+    this.playTime$.subscribe(playTime => timeRecord = playTime);
+    const fometedDate = this.getFormatedDate();
+    const displayTime = this.getDisplayTime(timeRecord);
+    return { date: fometedDate, playTime: timeRecord, displayTime, user}
+  }
+
+  getFormatedDate(): string {
+    const d: Date = new Date();
     const MM = d.getMonth() + 1;
     const DD = d.getDate();
     const h = d.getHours();
     const hh = String(h).length === 2 ? h : `0${h}`;
     const m = d.getMinutes();
     const mm = String(m).length === 2 ? m : `0${m}`;
-    this.playTime$.subscribe(playTime => timeRecord = playTime);
+    return `${MM}/${DD} ${hh}:${mm}`;
+  }
 
-    const second = timeRecord % 60;
-    const minute = Math.floor(timeRecord / 60);
-    const sec = String(second).length === 2 ? String(second) : "0" + second;
-    const min = String(minute).length === 2 ? String(minute) : "0" + minute;
-    displayTime = `${min}:${sec}`;
-    return { date:`${MM}/${DD} ${hh}:${mm}`, playTime: timeRecord, displayTime}
+  getDisplayTime(time: number): string {
+    const second:number = time % 60;
+    const minute:number = Math.floor(time / 60);
+    const sec: string = String(second).length === 2 ? String(second) : "0" + second;
+    const min: string = String(minute).length === 2 ? String(minute) : "0" + minute;
+    const displayTime: string = `${min}:${sec}`;
+    return displayTime;
   }
 
   constructor(private ngRedux: NgRedux<IAppState>) {
