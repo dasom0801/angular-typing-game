@@ -37,17 +37,13 @@ export class GameService {
   }
 
   handlePoint(isPointUp: boolean, amount: number): void {
-    let point: number, speed: number, gameover: boolean;
+    let point: number, gameover: boolean;
     this.point$.subscribe(num => point = num);
-    this.playSpeed$.subscribe(playSpeed => speed = playSpeed);
     this.gameOver$.subscribe(bool => gameover = bool);
     if (point === 0 && !gameover) {
       this.ngRedux.dispatch({type: GAMEOVER, isOver: true})
     } else {
       this.ngRedux.dispatch({type: HANDLE_POINT, isPointUp, amount});
-    }
-    if (speed > 100 && isPointUp && point % 5 === 4 ) {
-      this.handleGameLevel();
     }
   }
 
@@ -64,7 +60,11 @@ export class GameService {
   }
 
   handleGameLevel(): void {
-    this.ngRedux.dispatch({type: LEVEL_UP});
+    let speed: number;
+    this.playSpeed$.subscribe(playSpeed => speed = playSpeed);
+    if (speed > 100) {
+      this.ngRedux.dispatch({type: LEVEL_UP});
+    }
   }
 
   handleTimeCount(): void {

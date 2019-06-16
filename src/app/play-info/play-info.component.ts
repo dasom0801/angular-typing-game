@@ -18,6 +18,9 @@ export class PlayInfoComponent implements OnInit {
 
   ngOnInit() {
     this.timeSubscription = this.playTime$.subscribe(num => {
+      if (num && num % 5 === 0) {
+        this.gameService.handleGameLevel();
+      }
       this.displayTime = this.gameService.getDisplayTime(num);
     });
   }
