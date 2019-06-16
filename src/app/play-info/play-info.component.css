@@ -1,5 +1,16 @@
 .play-info {
+  padding: 20px;
   width: 200px;
   height: 500px;
   background-color: #fff;
+  text-align: center;
+}
+.label {
+  margin-bottom: 5px;
+  font-size: 20px;
+}
+.info {
+  margin-bottom: 20px;
+  font-size: 30px;
+  font-weight: bold;
 }
