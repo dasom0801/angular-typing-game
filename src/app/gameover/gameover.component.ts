@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer } from '@angular/core';
 import { Router } from '@angular/router';
 import { select } from '@angular-redux/store';
 import { Observable, Subscription } from 'rxjs';
@@ -16,7 +16,8 @@ export class GameoverComponent implements OnInit {
 
   constructor(
     private gameService: GameService,
-    private router: Router) { }
+    private router: Router,
+    private render: Renderer) { }
   handleInput(event: any) {
     this.gameService.setRankingList(event.target.value);
     event.target.value = '';
@@ -26,6 +27,7 @@ export class GameoverComponent implements OnInit {
     this.timeSubscription = this.playTime$.subscribe(num => {
       this.displayTime = this.gameService.getDisplayTime(num);
     });
+    this.render.selectRootElement('.name-input').focus();
   }
   ngOnDestroy() {
     this.timeSubscription.unsubscribe();
