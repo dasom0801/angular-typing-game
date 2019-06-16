@@ -14,8 +14,9 @@ export class GameComponent implements OnInit {
   @select() readonly gameOver$: Observable<boolean>
 
   handleInput(event: any): void {
-    const inputValue = event.target.value;
-    this.gameService.removeWord(inputValue, true);
+    const inputValue: string = event.target.value;
+    const amount: number = inputValue.length < 4 ? 1 : 2;
+    this.gameService.removeWord(inputValue, true, amount);
     event.target.value = '';
   }
 

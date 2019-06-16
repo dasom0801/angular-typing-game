@@ -36,28 +36,29 @@ export class GameService {
     this.ngRedux.dispatch({type: GET_WORDS, word: word});
   }
 
-  handlePoint(isPointUp: boolean): void {
+  handlePoint(isPointUp: boolean, amount: number): void {
     let point: number, speed: number, gameover: boolean;
     this.point$.subscribe(num => point = num);
     this.playSpeed$.subscribe(playSpeed => speed = playSpeed);
     this.gameOver$.subscribe(bool => gameover = bool);
     if (point === 0 && !gameover) {
       this.ngRedux.dispatch({type: GAMEOVER, isOver: true})
+    } else {
+      this.ngRedux.dispatch({type: HANDLE_POINT, isPointUp, amount});
     }
-    point !== 0 && this.ngRedux.dispatch({type: HANDLE_POINT, isPointUp});
     if (speed > 100 && isPointUp && point % 5 === 4 ) {
       this.handleGameLevel();
     }
   }
 
-  removeWord(text: string, isPointUp: boolean): void {
+  removeWord(text: string, isPointUp: boolean, amount: number): void {
     let removeWord: (number|Word)[];
     this.words$.pipe(
       map(word => word.map((w, i) => [w, i])),
       first()
     ).subscribe(value => removeWord = value.filter(word => Object.values(word[0]).includes(text))[0])
     if(removeWord) {
-      this.handlePoint(isPointUp);
+      this.handlePoint(isPointUp, amount);
       this.ngRedux.dispatch({type: REMOVE_WORD, index: removeWord[1]});
     }
   }

@@ -31,7 +31,7 @@ export class WordComponent implements OnInit {
       if(this.word.top < 500) {
         this.word.top = this.word.top + 25
       } else {
-        this.gameService.removeWord(this.word.text, false);
+        this.gameService.removeWord(this.word.text, false, 1);
       }
     });
   }

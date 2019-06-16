@@ -1,3 +1,7 @@
 span {
   position: absolute;
 }
+.high-score{
+  color: #ff4400;
+  font-weight: bold;
+}

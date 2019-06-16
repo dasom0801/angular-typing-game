@@ -46,7 +46,7 @@ export const rootReducer = (state: IAppState = INITIAL_STATE, action): IAppState
     case HANDLE_POINT:
       return {
         ...state,
-        point: action.isPointUp ? state.point + 1 : state.point - 1
+        point: action.isPointUp ? state.point + action.amount : state.point - action.amount
       };
     case REMOVE_WORD: 
       return {
