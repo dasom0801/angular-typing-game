@@ -9,6 +9,7 @@ import { PlayAreaComponent } from './play-area/play-area.component';
 import { PlayInfoComponent } from './play-info/play-info.component';
 import { GameComponent } from './game/game.component';
 import { WordComponent } from './word/word.component';
+import { GameRankingComponent } from './game-ranking/game-ranking.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { WordComponent } from './word/word.component';
     PlayInfoComponent,
     GameComponent,
     WordComponent,
+    GameRankingComponent,
   ],
   imports: [
     BrowserModule,

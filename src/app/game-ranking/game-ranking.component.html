@@ -1,0 +1,19 @@
+<div class="game-ranking">
+  <table>
+    <caption>Ranking</caption>
+    <thead>
+      <tr>
+        <th>순위</th>
+        <th>날짜</th>
+        <th>기록</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let ranking of (ranking$ | async); let i = index;">
+        <td>{{ i + 1 }}</td>
+        <td>{{ ranking.date }}</td>
+        <td>{{ ranking.displayTime }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

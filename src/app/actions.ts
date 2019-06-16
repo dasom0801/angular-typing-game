@@ -6,3 +6,4 @@ export const REMOVE_WORD = 'REMOVE_WORD';
 export const GAMEOVER = 'GAMEOVER';
 export const LEVEL_UP = 'LEVEL_UP';
 export const COUNT_TIME = 'COUNT_TIME';
+export const SET_RANK = 'SET_RANK';
