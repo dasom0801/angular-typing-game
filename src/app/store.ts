@@ -25,7 +25,6 @@ export const INITIAL_STATE: IAppState = {
 }
 
 export const rootReducer = (state: IAppState = INITIAL_STATE, action): IAppState => {
-  console.log('store action' , action);
   switch (action.type) {
     case INIT_PLAY: 
       return {
